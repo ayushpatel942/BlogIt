@@ -53,3 +53,17 @@ export const LoadPostByPostIdFunc = (postid) => {
     return response.data;
   });
 };
+
+//http://localhost:8080/api/posts/category/Technology
+//http://localhost:8080/api/posts/category/Technology?pagenumber=0&pagesize=1&mostrecentfirst=true
+export const LoadAllPostsByCategoryFunc = (
+  categoryname,
+  pagenumber = 0,
+  pagesize = 5,
+  mostrecentfirst
+) => {
+  const url = `/api/posts/category/${categoryname}?pagenumber=${pagenumber}&pagesize=${pagesize}&mostrecentfirst=${mostrecentfirst}`;
+  return myaxios.get(url).then((response) => {
+    return response.data;
+  });
+};

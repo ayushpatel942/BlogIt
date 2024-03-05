@@ -7,6 +7,7 @@ import { BrowserRouter,Routes, Route } from "react-router-dom";
 import Posts from './pages/Posts';
 import UserProvider from "./context/UserProvider";
 import FullPostView from './pages/FullPostView';
+import PublicPosts from './pages/PublicPosts';
 function App() {
   return (
     <UserProvider>
@@ -19,6 +20,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/postview" element={<FullPostView />} />
             <Route path="/*" element={<h1>NOT FOUND</h1>} />
+            <Route
+              path="/posts/category"
+              element={<PublicPosts />}
+            />
           </Routes>
         </BrowserRouter>
       </div>
