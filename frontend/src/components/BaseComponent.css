@@ -1,5 +1,9 @@
 .BaseComponent{
-    background: #556270; /* fallback for old browsers */
+    margin: auto;
+    /* padding-top: 1%; */
+    /* padding-bottom: 1%; */
+    width: 400px;
+    background: #3a97fb; /* fallback for old browsers */
     background: -webkit-linear-gradient(
       to right,
       #949be9,

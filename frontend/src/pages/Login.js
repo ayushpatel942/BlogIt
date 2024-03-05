@@ -44,7 +44,7 @@ function Login(props) {
 
   return (
     <BaseComponent>
-      <div className="Login container" style={{minHeight:"500px"}}>
+      {/* <div className="Login container" style={{minHeight:"500px"}}> */}
         <div className="row">
           <div className="col-md-6 offset-md-3">
             <Card className="my-2 shadow" style={{backgroundColor:"rgb(255,255,255,0.4)"}}>
@@ -92,7 +92,7 @@ function Login(props) {
             </Card>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </BaseComponent>
   );
 }

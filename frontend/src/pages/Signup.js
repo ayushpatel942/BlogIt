@@ -64,7 +64,7 @@ function Signup(props) {
 
   return (
     <BaseComponent>
-      <div className="Signup container" style={{minHeight:"500px"}}>
+      {/* <div className="Signup container" style={{minHeight:"500px"}}> */}
         <div className="row">
           <div className="col-md-6 offset-md-3">
             <Card
@@ -140,7 +140,7 @@ function Signup(props) {
               </CardBody>
             </center>
             </Card>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </BaseComponent>
