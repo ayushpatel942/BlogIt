@@ -8,6 +8,7 @@ import Posts from './pages/Posts';
 import UserProvider from "./context/UserProvider";
 import FullPostView from './pages/FullPostView';
 import PublicPosts from './pages/PublicPosts';
+import Profile from './pages/Profile';
 function App() {
   return (
     <UserProvider>
@@ -24,6 +25,7 @@ function App() {
               path="/posts/category"
               element={<PublicPosts />}
             />
+          <Route path="profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </div>
