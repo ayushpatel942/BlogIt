@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { BrowserRouter,Routes, Route } from "react-router-dom";
 import Posts from './pages/Posts';
 import UserProvider from "./context/UserProvider";
+import FullPostView from './pages/FullPostView';
 function App() {
   return (
     <UserProvider>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/posts" element={<Posts />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/postview" element={<FullPostView />} />
             <Route path="/*" element={<h1>NOT FOUND</h1>} />
           </Routes>
         </BrowserRouter>

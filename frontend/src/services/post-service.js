@@ -39,3 +39,17 @@ export const LoadAllPostsByUsernameFunc = (username, mostrecentfirst) => {
     return response.data;
   });
 };
+
+//http://localhost:8080/api/users/anshu/posts/14/comments
+export const AddNewCommentToPostFunc = (comment, username, postid) => {
+  const url = `/api/users/${username}/posts/${postid}/comments`;
+  return myaxios.post(url, comment);
+};
+
+//http://localhost:8080/api/posts/8
+export const LoadPostByPostIdFunc = (postid) => {
+  const url = `/api/posts/${postid}`;
+  return myaxios.get(url).then((response) => {
+    return response.data;
+  });
+};
