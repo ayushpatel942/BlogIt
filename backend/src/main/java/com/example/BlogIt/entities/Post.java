@@ -1,5 +1,6 @@
 package com.example.BlogIt.entities;
 
+import com.example.BlogIt.constants.GlobalConstants;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,28 +11,26 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
-@RequiredArgsConstructor
-public class Post
-{
+@Setter
+@NoArgsConstructor
+public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pid;
-
     private String title;
-
     @Lob
     private String content;
-
-    private String image="defaultpostimage.jpg";
-
+    private String image= GlobalConstants.DEFAULT_POST_IMAGE_NAME;
     private Date date;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
 
     @ManyToOne
     @JoinColumn(name = "cid")
     private Category category;
-
     @ManyToOne
     @JoinColumn(name = "uid")
     private User user;

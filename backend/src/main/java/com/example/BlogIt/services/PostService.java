@@ -8,12 +8,20 @@ import java.util.List;
 
 public interface PostService {
 
-    Post createPost(Post post, String username, String categoryname, MultipartFile file, String folderpath);
+    Post createPostAndSaveImageInDB(Post post, String username, String categoryname, MultipartFile file);
+
     Post getPostById(Integer id);
-    Post updatePostById(Post newpostdata,Integer postid,String username);
+
+    Post addImageToPost(MultipartFile image, String username, Integer postid);
+
+    Post updatePostById(Post newpostdata, Integer postid, String username);
+
     void deletePostById(Integer id);
+
     PostResponseDto getAllPosts(Integer pagenumber, Integer pagesize, boolean mostrecentfirst);
-    PostResponseDto getAllPostsByCategory(String category,Integer pagenumber, Integer pagesize,
+
+    PostResponseDto getAllPostsByCategory(String category, Integer pagenumber, Integer pagesize,
                                           boolean mostrecentfirst);
+
     List<Post> getAllPostsByUser(String username, boolean mostrecentfirst);
 }

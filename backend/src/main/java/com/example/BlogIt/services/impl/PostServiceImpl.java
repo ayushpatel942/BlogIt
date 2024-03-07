@@ -1,22 +1,78 @@
 package com.example.BlogIt.services.impl;
 
+import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.dto.PostResponseDto;
 import com.example.BlogIt.entities.Post;
+import com.example.BlogIt.exceptions.ApiResponse;
+import com.example.BlogIt.exceptions.CustomException;
+import com.example.BlogIt.repositories.CategoryRepository;
 import com.example.BlogIt.repositories.PostRepository;
+import com.example.BlogIt.repositories.UserRepository;
+import com.example.BlogIt.services.FileService;
 import com.example.BlogIt.services.PostService;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class PostServiceImpl implements PostService {
+@Service
+@Slf4j
+public class PostServiceImpl implements PostService
+{
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private FileService fileService;
+
     @Override
-    public Post createPost(Post post, String username, String categoryname, MultipartFile file, String folderpath) {
+    public Post createPostAndSaveImageInDB(Post post, String username, String categoryname, MultipartFile file) {
         return null;
     }
 
     @Override
     public Post getPostById(Integer id) {
-        return null;
+        return postRepository.findById(id)
+                .orElseThrow();
+    }
+
+    @Override
+    public Post addImageToPost(MultipartFile file, String username, Integer postid) {
+        userRepository.findUserByUsername(username.toLowerCase())
+                .orElseThrow();
+
+        Post foundPost = postRepository.findById(postid)
+                .orElseThrow();
+
+        if (file != null && fileService.isImageWithValidExtension(file)) {
+            try {
+                byte[] imageData = file.getBytes();
+                foundPost.setImageData(imageData);
+                foundPost.setImage(GlobalConstants.POST_IMAGE_UPLOADED);
+            } catch (Exception e) {
+                log.error("Error In Adding Image To A Post!!");
+//                throw new CustomException("Error In Adding Image To A Post!!", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return postRepository.save(foundPost);
     }
 
     @Override
