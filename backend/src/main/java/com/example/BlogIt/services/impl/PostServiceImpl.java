@@ -3,6 +3,7 @@ package com.example.BlogIt.services.impl;
 import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.dto.PostResponseDto;
 import com.example.BlogIt.entities.Post;
+import com.example.BlogIt.entities.User;
 import com.example.BlogIt.exceptions.ApiResponse;
 import com.example.BlogIt.exceptions.CustomException;
 import com.example.BlogIt.repositories.CategoryRepository;
@@ -13,6 +14,7 @@ import com.example.BlogIt.services.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,16 +53,17 @@ public class PostServiceImpl implements PostService
     @Override
     public Post getPostById(Integer id) {
         return postRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException("Post not found with id :" + id, HttpStatus.NOT_FOUND));
     }
 
     @Override
     public Post addImageToPost(MultipartFile file, String username, Integer postid) {
         userRepository.findUserByUsername(username.toLowerCase())
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException("User Not Found with username : " + username.toLowerCase(),
+                        HttpStatus.NOT_FOUND));
 
         Post foundPost = postRepository.findById(postid)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException("Post not found with id :" + postid, HttpStatus.NOT_FOUND));
 
         if (file != null && fileService.isImageWithValidExtension(file)) {
             try {
@@ -69,7 +72,7 @@ public class PostServiceImpl implements PostService
                 foundPost.setImage(GlobalConstants.POST_IMAGE_UPLOADED);
             } catch (Exception e) {
                 log.error("Error In Adding Image To A Post!!");
-//                throw new CustomException("Error In Adding Image To A Post!!", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new CustomException("Error In Adding Image To A Post!!", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return postRepository.save(foundPost);
@@ -97,6 +100,9 @@ public class PostServiceImpl implements PostService
 
     @Override
     public List<Post> getAllPostsByUser(String username, boolean mostrecentfirst) {
-        return null;
+        Sort sort = Sort.by(mostrecentfirst ? Sort.Direction.DESC : Sort.Direction.ASC, "date");
+        User founduser = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new CustomException("Username not found in DB :" + username, HttpStatus.NOT_FOUND));
+        return postRepository.findPostByUser(founduser, sort);
     }
 }

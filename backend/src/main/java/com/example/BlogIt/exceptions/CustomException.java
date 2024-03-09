@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CustomException
+public class CustomException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
     private String message;
