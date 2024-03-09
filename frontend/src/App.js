@@ -9,6 +9,9 @@ import UserProvider from "./context/UserProvider";
 import FullPostView from './pages/FullPostView';
 import PublicPosts from './pages/PublicPosts';
 import Profile from './pages/Profile';
+import Home from './pages/Home';
+
+
 function App() {
   return (
     <UserProvider>
@@ -16,6 +19,7 @@ function App() {
         <BrowserRouter>
           <ToastContainer position="bottom-right" />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/posts" element={<Posts />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />

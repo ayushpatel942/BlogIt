@@ -34,3 +34,8 @@ export const isLoggedIn = () => {
   if (localStorage.getItem("loggedinuser")) return true;
   else return false;
 };
+
+export const doLogoutFunc = (callback) => {
+  if (isLoggedIn) localStorage.removeItem("loggedinuser");
+  callback();
+};
