@@ -2,6 +2,7 @@ package com.example.BlogIt.controller;
 
 import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.dto.PostDto;
+import com.example.BlogIt.dto.PostResponseDto;
 import com.example.BlogIt.entities.Post;
 import com.example.BlogIt.exceptions.ApiResponse;
 import org.apache.tika.Tika;
@@ -88,6 +89,49 @@ public class PostController
                                                          @PathVariable("postid") Integer postid) {
         Post post = postService.getPostById(postid);
         return new ResponseEntity<PostDto>(modelMapper.map(post, PostDto.class), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/{username}/posts/{postid}")
+    public ResponseEntity<ApiResponse> deletePostOfUserByPostId(@PathVariable("username") String username,
+                                                                @PathVariable("postid") Integer postid) {
+        postService.deletePostById(postid);
+        ApiResponse apiResponse = new ApiResponse("Post Successfully Deleted with id :" + postid, LocalDateTime.now(),
+                HttpStatus.OK, HttpStatus.OK.value());
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    }
+
+    @PutMapping("/users/{username}/posts/{postid}")
+    public ResponseEntity<PostDto> updatePostOfUserByPostId(@PathVariable("username") String username,
+                                                            @PathVariable("postid") Integer postid, @RequestBody Post newpostdata) {
+        Post updatedpost = postService.updatePostById(newpostdata, postid, username);
+
+        return new ResponseEntity<PostDto>(modelMapper.map(updatedpost, PostDto.class), HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/{postid}")
+    public ResponseEntity<PostDto> getPostByPostId(@PathVariable("postid") Integer postid) {
+        Post post = postService.getPostById(postid);
+        return new ResponseEntity<PostDto>(modelMapper.map(post, PostDto.class), HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/category/{categoryname}")
+    public ResponseEntity<PostResponseDto> getAllPostsByCategory(@PathVariable("categoryname") String categoryname,
+                                                                 @RequestParam(value = "pagenumber", defaultValue = "0", required = false) Integer pagenumber,
+                                                                 @RequestParam(value = "pagesize", defaultValue = "5", required = false) Integer pagesize,
+                                                                 @RequestParam(value = "mostrecentfirst", defaultValue = "true", required = false) boolean mostrecentfirst) {
+        PostResponseDto allPostsByCategory = postService.getAllPostsByCategory(categoryname, pagenumber, pagesize,
+                mostrecentfirst);
+        return new ResponseEntity<PostResponseDto>(allPostsByCategory, HttpStatus.OK);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<PostResponseDto> getAllPosts(
+            @RequestParam(value = "pagenumber", defaultValue = "0", required = false) Integer pagenumber,
+            @RequestParam(value = "pagesize", defaultValue = "5", required = false) Integer pagesize,
+            @RequestParam(value = "mostrecentfirst", defaultValue = "true", required = false) boolean mostrecentfirst) {
+        PostResponseDto allPosts = postService.getAllPosts(pagenumber, pagesize, mostrecentfirst);
+
+        return new ResponseEntity<>(allPosts, HttpStatus.OK);
     }
 
 }
