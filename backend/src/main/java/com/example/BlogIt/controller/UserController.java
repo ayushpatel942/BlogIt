@@ -6,6 +6,7 @@ import com.example.BlogIt.entities.User;
 import com.example.BlogIt.exceptions.ApiResponse;
 import com.example.BlogIt.exceptions.CustomException;
 import com.example.BlogIt.services.UserService;
+import jakarta.validation.Valid;
 import org.apache.tika.Tika;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserController {
 
@@ -60,5 +63,24 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<ApiResponse> deleteSingleUser(@PathVariable String username) {
+        userService.deleteUserByUsername(username);
+        ApiResponse apiResponse = new ApiResponse("User Successfully Deleted with username :" + username,
+                LocalDateTime.now(), HttpStatus.OK, HttpStatus.OK.value());
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<UserDto> addNewUser(@Valid @RequestBody User User) {
+        User createdUser = userService.createUser(User);
+        return new ResponseEntity<UserDto>(modelMapper.map(createdUser, UserDto.class), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> allUsers = userService.getAllUsers().stream().map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    }
 }

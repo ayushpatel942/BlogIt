@@ -10,6 +10,7 @@ import FullPostView from './pages/FullPostView';
 import PublicPosts from './pages/PublicPosts';
 import Profile from './pages/Profile';
 import Home from './pages/Home';
+import About from './pages/About';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/postview" element={<FullPostView />} />
+            <Route path="/about" element={<About />} />
             <Route path="/*" element={<h1>NOT FOUND</h1>} />
             <Route
               path="/posts/category"
