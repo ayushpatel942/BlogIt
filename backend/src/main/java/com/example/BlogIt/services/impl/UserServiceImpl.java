@@ -23,7 +23,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserByUsername(User user, String username) {
-        return null;
+        User founduser = userRepository.findUserByUsername(username.toLowerCase())
+                .orElseThrow(() -> new CustomException("User Not Found with username : " + username.toLowerCase(),
+                        HttpStatus.NOT_FOUND));
+        if (user.getUsername() != null) {
+            if (userRepository.findUserByUsername(user.getUsername().toLowerCase()).isPresent())
+                throw new CustomException("Username already taken : " + (user.getUsername().toLowerCase()),
+                        HttpStatus.CONFLICT);
+        }
+
+        founduser.setName(user.getName() == null ? founduser.getName() : user.getName());
+        founduser.setUsername(user.getUsername() == null ? founduser.getUsername().toLowerCase() : user.getUsername().toLowerCase());
+        founduser.setPassword(user.getPassword() == null ? founduser.getPassword() : user.getPassword());
+        founduser.setAbout(user.getAbout() == null ? founduser.getAbout() : user.getAbout());
+        User updateduser = userRepository.save(founduser);
+        return updateduser;
     }
 
     @Override
@@ -42,5 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return null;
+    }
+
+    @Override
+    public boolean deleteAllUsers() {
+        userRepository.deleteAll();
+        return true;
     }
 }

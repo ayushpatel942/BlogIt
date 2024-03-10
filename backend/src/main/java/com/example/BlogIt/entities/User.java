@@ -1,5 +1,6 @@
 package com.example.BlogIt.entities;
 
+import com.example.BlogIt.constants.GlobalConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -34,7 +35,11 @@ public class User
 
     private String about;
 
-    private String profilepic="default.jpg";
+    private String profilepic= GlobalConstants.DEFAULT_POST_IMAGE_NAME;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageData;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Post> allposts=new ArrayList<>();
