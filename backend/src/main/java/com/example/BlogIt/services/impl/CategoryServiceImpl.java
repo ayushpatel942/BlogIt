@@ -22,12 +22,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateCategory(Category category, Integer id) {
-        return null;
+        Category foundcategory = categoryRepository.findById(id).orElseThrow(()->new CustomException("Category not found with id :"+id,HttpStatus.NOT_FOUND));
+        foundcategory.setName(category.getName());
+        foundcategory.setDescription(category.getDescription());
+        return categoryRepository.save(foundcategory);
     }
 
     @Override
     public void deleteCategory(Integer id) {
-
+        categoryRepository.findById(id).orElseThrow(()->new CustomException("Category not found with id :"+id,HttpStatus.NOT_FOUND));
+        categoryRepository.deleteById(id);
     }
 
     @Override

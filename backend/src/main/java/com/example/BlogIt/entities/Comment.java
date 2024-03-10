@@ -17,14 +17,16 @@ public class Comment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cid;
-
     private String comment;
-
     private Date commentdate;
 
     @ManyToOne
     @JoinColumn(name = "pid")
     private Post post;
+
+    @OneToOne
+    @JoinColumn(name = "uid")
+    private User user;
 
 
 }
