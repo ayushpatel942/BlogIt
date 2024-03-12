@@ -1,6 +1,6 @@
 # Blog Website
 
-This is a fully featured blog website developed as a pre-final project for the course "WEB APPLICATION DEVELOPMENT (CE-518)" during the 5th Semester at [Dharmsinh Desai University]. It is based on the 3 Tier Architecture.
+This is a fully featured blog website developed as a pre-final project for the course "FULL STACK DEVELOPMENT" during the 6th Semester at [Dharmsinh Desai University].
 
 ## Technologies Used
 
