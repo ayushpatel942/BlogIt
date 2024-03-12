@@ -1,14 +1,5 @@
 import { myaxios } from "./helper";
 
-//http://localhost:8080/api/users/posts/CSE **
-// export const AddNewPostFunc=(postdata,categoryname,username)=>{
-//     //console.log(postdata)
-//     const url=`/api/users/${username}/posts/${categoryname}`;
-//     //console.log(url);
-//     return myaxios.post(url,postdata);
-// };
-
-//this post function will send data as form data along with imagedata
 export const AddNewPostWithFormDataFunc = (
   postdata,
   imagedata,

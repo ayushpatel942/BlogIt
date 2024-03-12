@@ -22,17 +22,20 @@ function App() {
           <ToastContainer position="bottom-right" />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/posts" element={<Posts />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/postview" element={<FullPostView />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
             <Route path="/posts/:postid" element={<FullPostView />} />
-            <Route path="/posts/category" element={<PublicPosts />} />
-            <Route path="/user/:username" element={<PrivateRoute />}></Route>
-            <Route path="profile" element={<Profile />} />
-            <Route path="addpost" element={<Posts />} />
-            <Route path="editpost/:postid" element={<EditPost />} />
+            <Route
+              path="/posts/category/:categoryname"
+              element={<PublicPosts />}
+            />
+            <Route path="/user/:username" element={<PrivateRoute />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="addpost" element={<Posts />} />
+              <Route path="editpost/:postid" element={<EditPost />} />
+            </Route>
             <Route path="/*" element={<h1>NOT FOUND</h1>} />
           </Routes>
         </BrowserRouter>
