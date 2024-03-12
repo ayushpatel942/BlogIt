@@ -4,12 +4,13 @@
 // export const BASEURL = "http://localhost:8080";
 
 // export const myaxios = axios.create({ baseURL: BASEURL });
-
+import React from "react";
 import axios from "axios";
 
 export const BASEURL = "http://localhost:8080";
 export const myaxios = axios.create({ baseURL: BASEURL });
 export const POST_IMAGE_SERVE_URL=BASEURL+"/api/images/servepostimage";
+export const DEFAULT_PROFILE_IMAGE_NAME="default.jpg";
 export const DEFAULT_POST_IMAGE_NAME="defaultpostimage.jpg";
 
 export const CustomDateFormatterFunc = (date) => {
@@ -37,5 +38,12 @@ export const isLoggedIn = () => {
 
 export const doLogoutFunc = (callback) => {
   if (isLoggedIn) localStorage.removeItem("loggedinuser");
+  callback();
+};
+
+export const doLoginFunc = (data, callback) => {
+  //console.log("INSIDE doLoginFunc to save token and user details");
+  //console.log(data);
+  localStorage.setItem("loggedinuser", JSON.stringify(data));
   callback();
 };

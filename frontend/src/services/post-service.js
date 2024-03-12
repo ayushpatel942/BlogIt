@@ -67,3 +67,9 @@ export const LoadAllPostsByCategoryFunc = (
     return response.data;
   });
 };
+
+export const UpdatePostFunc = (postdata,username,postid) => {
+  //console.log(postdata)
+  const url = `/api/users/${username}/posts/${postid}`;
+  return myaxios.put(url, postdata);
+};
