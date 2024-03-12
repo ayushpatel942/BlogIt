@@ -45,7 +45,7 @@ function Posts() {
   return (
     <BaseComponent>
       <PostForm LoadPostsByUsername={LoadPostsByUsername}/>
-      <Container className="mt-2 mb-2 text-center">
+      <Container className="mt-2 mb-2 text-center" style={{ width: '73%' }}>
         <Card>
           <h2>Total Posts ( {posts.length} )</h2>
         </Card>

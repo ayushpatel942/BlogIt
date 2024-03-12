@@ -9,7 +9,6 @@ public interface UserService {
     User updateUserByUsername(User user,String username);
     User getUserByUsername(String username);
     boolean deleteUserByUsername(String username);
-    List<User> getAllUsers();
-
     boolean deleteAllUsers();
+    List<User> getAllUsers();
 }

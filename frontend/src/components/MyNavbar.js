@@ -33,22 +33,12 @@ function MyNavbar(props) {
   return (
     <div className="MyNavbar">
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand tag={ReactNavLink} to="/home">
+        <NavbarBrand tag={ReactNavLink}>
           <i className="fa-sharp fa-solid fa-marker"></i>WRITE-IT
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>
-            <NavItem>
-              <NavLink tag={ReactNavLink} to="/home">
-                HOME
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={ReactNavLink} to="/about">
-                ABOUT
-              </NavLink>
-            </NavItem>
             <NavItem>
               <NavLink tag={ReactNavLink} to="/posts/category/All">
                 ALL POSTS

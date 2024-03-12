@@ -1,18 +1,17 @@
 package com.example.BlogIt.exceptions;
 
-import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CustomException extends RuntimeException
-{
+public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     private String message;
     private LocalDateTime timestamp;

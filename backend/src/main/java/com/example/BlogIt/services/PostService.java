@@ -1,10 +1,11 @@
 package com.example.BlogIt.services;
 
+import java.util.List;
+
 import com.example.BlogIt.dto.PostResponseDto;
 import com.example.BlogIt.entities.Post;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 public interface PostService {
 

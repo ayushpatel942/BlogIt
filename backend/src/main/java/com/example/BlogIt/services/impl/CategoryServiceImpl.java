@@ -1,5 +1,7 @@
 package com.example.BlogIt.services.impl;
 
+import java.util.List;
+
 import com.example.BlogIt.entities.Category;
 import com.example.BlogIt.exceptions.CustomException;
 import com.example.BlogIt.repositories.CategoryRepository;
@@ -8,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -44,7 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         List<Category> allcategories = categoryRepository.findAll();
         if(allcategories.size()==0)
-            throw new CustomException("No Category found", HttpStatus.NOT_FOUND);
+            throw new CustomException("No Category found",HttpStatus.NOT_FOUND);
         return allcategories;
     }
+
 }

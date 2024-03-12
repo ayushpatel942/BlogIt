@@ -1,5 +1,6 @@
 package com.example.BlogIt.services;
 
+
 import com.example.BlogIt.entities.Comment;
 
 public interface CommentService {

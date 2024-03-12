@@ -1,12 +1,15 @@
 package com.example.BlogIt.controller;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.dto.UserDto;
 import com.example.BlogIt.entities.User;
 import com.example.BlogIt.exceptions.ApiResponse;
 import com.example.BlogIt.exceptions.CustomException;
 import com.example.BlogIt.services.UserService;
-import jakarta.validation.Valid;
 import org.apache.tika.Tika;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +17,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -35,6 +47,7 @@ public class UserController {
         return new ResponseEntity<UserDto>(modelMapper.map(user, UserDto.class), HttpStatus.OK);
     }
 
+    // SERVE USER IMAGE
     @GetMapping(value = "/images/serveuserimage/{username}")
     public ResponseEntity<byte[]> serveUserProfileImage(@PathVariable("username") String username) {
         User foundUser = userService.getUserByUsername(username);
@@ -49,12 +62,14 @@ public class UserController {
         return new ResponseEntity<>(foundUser.getImageData(), headers, HttpStatus.OK);
     }
 
+    // UPDATE SINGLE USER
     @PutMapping("/users/{username}")
     public ResponseEntity<UserDto> updateSingleUser(@RequestBody User user, @PathVariable String username) {
         User updateduser = userService.updateUserByUsername(user, username);
         return new ResponseEntity<UserDto>(modelMapper.map(updateduser, UserDto.class), HttpStatus.OK);
     }
 
+    // DELETE ALL USERS
     @DeleteMapping("/users")
     public ResponseEntity<ApiResponse> deleteAllUsers() {
         userService.deleteAllUsers();
@@ -63,6 +78,7 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    // DELETE SINGLE USER
     @DeleteMapping("/users/{username}")
     public ResponseEntity<ApiResponse> deleteSingleUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
@@ -71,12 +87,14 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    // CREATE NEW USER
     @PostMapping("/users")
     public ResponseEntity<UserDto> addNewUser(@Valid @RequestBody User User) {
         User createdUser = userService.createUser(User);
         return new ResponseEntity<UserDto>(modelMapper.map(createdUser, UserDto.class), HttpStatus.CREATED);
     }
 
+    // GET ALL USERS
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> allUsers = userService.getAllUsers().stream().map(user -> modelMapper.map(user, UserDto.class))

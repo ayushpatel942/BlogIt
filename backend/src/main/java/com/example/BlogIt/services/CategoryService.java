@@ -1,8 +1,10 @@
 package com.example.BlogIt.services;
 
+
 import com.example.BlogIt.entities.Category;
 
 import java.util.List;
+
 
 public interface CategoryService {
     Category createCategory(Category category);

@@ -1,42 +1,39 @@
 package com.example.BlogIt.services.impl;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.dto.PostDto;
 import com.example.BlogIt.dto.PostResponseDto;
 import com.example.BlogIt.entities.Category;
 import com.example.BlogIt.entities.Post;
 import com.example.BlogIt.entities.User;
-import com.example.BlogIt.exceptions.ApiResponse;
 import com.example.BlogIt.exceptions.CustomException;
 import com.example.BlogIt.repositories.CategoryRepository;
 import com.example.BlogIt.repositories.PostRepository;
 import com.example.BlogIt.repositories.UserRepository;
 import com.example.BlogIt.services.FileService;
 import com.example.BlogIt.services.PostService;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class PostServiceImpl implements PostService
-{
-
+public class PostServiceImpl implements PostService {
     @Autowired
     private PostRepository postRepository;
 
@@ -129,26 +126,9 @@ public class PostServiceImpl implements PostService
     }
 
     @Override
-    public PostResponseDto getAllPosts(Integer pagenumber, Integer pagesize, boolean mostrecentfirst) {
-        Sort sort = Sort.by(mostrecentfirst ? Sort.Direction.DESC : Sort.Direction.ASC, "date");
-        Pageable pageable = PageRequest.of(pagenumber, pagesize, sort);
-        Page<Post> pageinfo = postRepository.findAll(pageable);
-        List<Post> posts = pageinfo.getContent();
-        List<PostDto> postsdtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))
-                .collect(Collectors.toList());
-
-        PostResponseDto postResponseDto = new PostResponseDto();
-        postResponseDto.setPosts(postsdtos);
-        postResponseDto.setCurrentpage(pageinfo.getNumber());
-        postResponseDto.setIslastpage(pageinfo.isLast());
-        postResponseDto.setTotalpage(pageinfo.getTotalPages());
-        postResponseDto.setTotalposts(pageinfo.getTotalElements());
-        return postResponseDto;
-    }
-
-    @Override
-    public PostResponseDto getAllPostsByCategory(String category, Integer pagenumber, Integer pagesize, boolean mostrecentfirst) {
-        Sort sort = Sort.by(mostrecentfirst ? Sort.Direction.DESC : Sort.Direction.ASC, "date");
+    public PostResponseDto getAllPostsByCategory(String category, Integer pagenumber, Integer pagesize,
+                                                 boolean mostrecentfirst) {
+        Sort sort = Sort.by(mostrecentfirst ? Direction.DESC : Direction.ASC, "date");
         Pageable pageable = PageRequest.of(pagenumber, pagesize, sort);
         Page<Post> pageinfo = null;
 
@@ -174,12 +154,28 @@ public class PostServiceImpl implements PostService
     }
 
     @Override
+    public PostResponseDto getAllPosts(Integer pagenumber, Integer pagesize, boolean mostrecentfirst) {
+        Sort sort = Sort.by(mostrecentfirst ? Direction.DESC : Direction.ASC, "date");
+        Pageable pageable = PageRequest.of(pagenumber, pagesize, sort);
+        Page<Post> pageinfo = postRepository.findAll(pageable);
+        List<Post> posts = pageinfo.getContent();
+        List<PostDto> postsdtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+
+        PostResponseDto postResponseDto = new PostResponseDto();
+        postResponseDto.setPosts(postsdtos);
+        postResponseDto.setCurrentpage(pageinfo.getNumber());
+        postResponseDto.setIslastpage(pageinfo.isLast());
+        postResponseDto.setTotalpage(pageinfo.getTotalPages());
+        postResponseDto.setTotalposts(pageinfo.getTotalElements());
+        return postResponseDto;
+    }
+
+    @Override
     public List<Post> getAllPostsByUser(String username, boolean mostrecentfirst) {
-        Sort sort = Sort.by(mostrecentfirst ? Sort.Direction.DESC : Sort.Direction.ASC, "date");
+        Sort sort = Sort.by(mostrecentfirst ? Direction.DESC : Direction.ASC, "date");
         User founduser = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new CustomException("Username not found in DB :" + username, HttpStatus.NOT_FOUND));
         return postRepository.findPostByUser(founduser, sort);
     }
-
-
 }

@@ -64,14 +64,14 @@ function PostView({ post, handlePostDelete }) {
                     handlePostDelete(userState.data.username, post.pid);
                   }}
                 >
-                  <i className="fa-solid fa-trash"></i>
+                  <i className="fa-solid fa-trash">Delete</i>
                 </Button>
                 <Button
                   tag={Link}
                   to={`/user/${userState.data.username}/editpost/${post.pid}`}
                   className="btn btn-sm btn-danger ms-2"
                 >
-                  <i className="fa-solid fa-pencil"></i>
+                  <i className="fa-solid fa-pencil">EditPost</i>
                 </Button>
               </>
             )}

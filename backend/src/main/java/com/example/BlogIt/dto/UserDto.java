@@ -1,16 +1,16 @@
 package com.example.BlogIt.dto;
 
+import java.util.List;
+
+
 import com.example.BlogIt.entities.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private int uid;
     private String name;
@@ -18,5 +18,6 @@ public class UserDto {
     private String password;
     private String about;
     private String profilepic;
+    private String imageData;
     private List<Role> roles;
 }

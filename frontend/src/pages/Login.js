@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BaseComponent from "../components/BaseComponent";
 import {
   Card,
@@ -11,8 +11,16 @@ import {
   Button,
 } from "reactstrap";
 import { toast } from "react-toastify";
+import { LoginFunc } from "../services/user-service";
+import { doLoginFunc } from "../services/helper";
+import UserContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Login(props) {
+
+  const { setUserState } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const [stateData, setStateData] = useState({
     username: "",
@@ -31,6 +39,22 @@ function Login(props) {
       toast.error("Username Or Password cannot be blank!!");
       return;
     }
+
+    LoginFunc(stateData)
+      .then((response) => {
+        const user = response.data;
+        //console.log(response.data)
+        doLoginFunc(user, () => {
+          //after login set user data in global state and then redirect to profile page
+          setUserState({ data:{...user},loggedIn:true });
+          navigate("/user/" + user.username + "/profile");
+        });
+        toast.success("Login Successful for username : " + user.username);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        toast.error(JSON.stringify(error.response.data.message));
+      });
 
     
   }

@@ -1,5 +1,8 @@
 package com.example.BlogIt.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.BlogIt.constants.GlobalConstants;
 import com.example.BlogIt.entities.Role;
 import com.example.BlogIt.entities.User;
@@ -11,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -84,4 +86,5 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteAll();
         return true;
     }
+
 }

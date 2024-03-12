@@ -74,10 +74,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Table } from "reactstrap";
 import BaseComponent from "../components/BaseComponent";
 import { FetchUserDetailsFunc } from "../services/user-service";
 import defaultprofileimage from "../images/default.jpeg";
+import { BASEURL, DEFAULT_PROFILE_IMAGE_NAME } from "../services/helper";
 
 
 function Profile() {
@@ -100,23 +101,41 @@ function Profile() {
         <div className="row">
           <div className="col-md-5  mx-auto">
             <Card>
-              <CardBody>
+            <CardBody>
                 <h3 style={{ textAlign: "center" }}>User Profile Details</h3>
                 <div className="container text-center mb-3">
+                  {profileData && (
                     <img
-                      src={defaultprofileimage}
+                      src={profileData?.profilepic === DEFAULT_PROFILE_IMAGE_NAME?defaultprofileimage:`${BASEURL}/api/images/serveuserimage/${profileData?.username}`}
                       alt="Profile Picture"
                       height={"150px"}
                       width={"150px"}
                       className="img-fluid rounded-5"
                     />
+                  )}
                 </div>
-                <div >
-                  <p><strong>USER ID:</strong> ayush@gmail.com</p>
-                  <p><strong>FULL NAME:</strong> Ayush Jagdishbhai Patel</p>
-                  <p><strong>USERNAME:</strong> ayush123</p>
-                  <p><strong>ABOUT:</strong> I pursuing IT from DDIT</p>
-                </div>
+                {profileData && (
+                  <Table bordered striped className="text-center">
+                    <tbody>
+                      <tr>
+                        <td>USER ID</td>
+                        <td>USER{profileData.uid}</td>
+                      </tr>
+                      <tr>
+                        <td>FULL NAME</td>
+                        <td>{profileData.name}</td>
+                      </tr>
+                      <tr>
+                        <td>USERNAME</td>
+                        <td>{profileData.username}</td>
+                      </tr>
+                      <tr>
+                        <td>ABOUT</td>
+                        <td>{profileData.about}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                )}
               </CardBody>
             </Card>
           </div>

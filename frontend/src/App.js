@@ -9,8 +9,6 @@ import UserProvider from "./context/UserProvider";
 import FullPostView from "./pages/FullPostView";
 import PublicPosts from "./pages/PublicPosts";
 import Profile from "./pages/Profile";
-import Home from "./pages/Home";
-import About from "./pages/About";
 import PrivateRoute from "./pages/PrivateRoute";
 import EditPost from "./pages/EditPost";
 
@@ -21,11 +19,9 @@ function App() {
         <BrowserRouter>
           <ToastContainer position="bottom-right" />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<PublicPosts />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/about" element={<About />} />
             <Route path="/posts/:postid" element={<FullPostView />} />
             <Route
               path="/posts/category/:categoryname"

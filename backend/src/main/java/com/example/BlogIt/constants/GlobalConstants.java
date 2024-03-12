@@ -1,7 +1,6 @@
 package com.example.BlogIt.constants;
 
-public class GlobalConstants
-{
+public class GlobalConstants {
     public static final String DEFAULT_PROFILE_IMAGE_NAME="default.jpg";
     public static final String DEFAULT_POST_IMAGE_NAME="defaultpostimage.jpg";
     public static final String PROFILE_IMAGE_UPLOADED="STATUS-UPLOADED";

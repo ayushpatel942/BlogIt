@@ -1,5 +1,7 @@
 package com.example.BlogIt.controller;
 
+import java.time.LocalDateTime;
+
 import com.example.BlogIt.dto.CommentDto;
 import com.example.BlogIt.entities.Comment;
 import com.example.BlogIt.exceptions.ApiResponse;
@@ -8,13 +10,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api")
 public class CommentController {
+
     @Autowired
     CommentService commentService;
 
@@ -28,6 +35,7 @@ public class CommentController {
         return new ResponseEntity<>(modelMapper.map(createdComment, CommentDto.class), HttpStatus.CREATED);
     }
 
+    // delete single comment of a post
     @DeleteMapping("/users/{username}/posts/{postid}/comments/{commentid}")
     public ResponseEntity<ApiResponse> deleteCommentByCommentId(@PathVariable("username") String username,
                                                                 @PathVariable("postid") Integer postid, @PathVariable("commentid") Integer commentid) {
@@ -37,6 +45,4 @@ public class CommentController {
                 LocalDateTime.now(), HttpStatus.OK, HttpStatus.OK.value());
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
-
-
 }

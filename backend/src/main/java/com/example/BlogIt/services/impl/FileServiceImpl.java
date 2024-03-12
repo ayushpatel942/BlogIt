@@ -4,12 +4,9 @@ import com.example.BlogIt.services.FileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 @Service
 public class FileServiceImpl implements FileService {
+
     @Override
     public boolean isImageWithValidExtension(MultipartFile file) {
         String filename = file.getOriginalFilename();

@@ -5,16 +5,14 @@ import com.example.BlogIt.entities.Category;
 import com.example.BlogIt.entities.Role;
 import com.example.BlogIt.repositories.CategoryRepository;
 import com.example.BlogIt.repositories.RoleRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class BlogItApplication implements ApplicationRunner {
+public class BlogItApplication implements ApplicationRunner{
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -26,13 +24,12 @@ public class BlogItApplication implements ApplicationRunner {
 		SpringApplication.run(BlogItApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper(){
-		return new ModelMapper();
-	}
-
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		//CREATE 2 ROLES IF NOT EXISTS WITH CUSTOM ID
+		//1-NORMAL
+		//2-ADMIN
+
 		Role role;
 		if(roleRepository.findById(1).isEmpty()) {
 			role=new Role();

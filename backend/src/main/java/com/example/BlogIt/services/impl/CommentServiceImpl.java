@@ -1,5 +1,7 @@
 package com.example.BlogIt.services.impl;
 
+import java.util.Date;
+
 import com.example.BlogIt.entities.Comment;
 import com.example.BlogIt.entities.Post;
 import com.example.BlogIt.entities.User;
@@ -12,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+
 
 @Service
 public class CommentServiceImpl implements CommentService {
+
     @Autowired
     PostRepository postRepository;
 
@@ -36,6 +39,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(foundpost);
         return commentRepository.save(comment);
     }
+
     @Override
     public void deleteComment(String username, Integer commentid) {
         userRepository.findUserByUsername(username).orElseThrow(
@@ -44,4 +48,5 @@ public class CommentServiceImpl implements CommentService {
                 () -> new CustomException("Comment not found with id : " + commentid, HttpStatus.NOT_FOUND));
         commentRepository.deleteById(commentid);
     }
+
 }
