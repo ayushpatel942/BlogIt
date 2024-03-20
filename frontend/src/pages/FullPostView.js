@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -14,46 +15,99 @@ import BaseComponent from "../components/BaseComponent";
 
 import { toast } from "react-toastify";
 import defaultpostimage from "../images/defaultpostimage.jpg"
+import { AddNewCommentToPostFunc, LoadPostByPostIdFunc } from "../services/post-service";
+import UserContext from "../context/UserContext";
+import { CustomDateFormatterFunc, CustomTextColorWrapper, DEFAULT_POST_IMAGE_NAME, POST_IMAGE_SERVE_URL } from "../services/helper";
 
 function FullPostView() {
+  const { userState } = useContext(UserContext);
+  const { postid } = useParams();
+  const [post, setPost] = useState({});
   const [comment, setComment] = useState({ comment: "" });
+
+
+  useEffect(() => {
+    LoadPostByPostIdFunc(postid)
+      .then((data) => {
+        //console.log(data);
+        setPost({ ...data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   function handleCommentChange(event) {
     setComment({ comment: event.target.value });
   }
 
   function handleCommentSubmit(event) {
+
     event.preventDefault();
     if (comment.comment === "") {
       toast.error("Comment Cannot Be Empty!!");
       return;
     }
+    AddNewCommentToPostFunc(comment, userState.data.username, postid)
+      .then((response) => {
+        //console.log(response.data);
+        //setComment({comment:""})
+        //setIscommentadded(!iscommentadded)
+        setPost({ ...post, comments: [...post.comments, response.data] });
+        toast.success("Comment Added Successfully!!");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   }
+
+  
+
 
   return (
     <BaseComponent>
       <div className="container">
-        <Card className="mt-4 mb-2">
+      <Card className="mt-4 mb-2">
+          {post && (
+            <>
               <CardBody>
-                <h2>Title : Demo Title</h2>
-                <h6>CATEGORY : Sports</h6>
+                <CardText>
+                  By{" "}
+                  <CustomTextColorWrapper>
+                    <b>{post?.user?.name}</b>
+                  </CustomTextColorWrapper>
+                  {"  "}
+                  On{" "}
+                  <CustomTextColorWrapper>
+                    <b> {CustomDateFormatterFunc(post.date)}</b>
+                  </CustomTextColorWrapper>
+                </CardText>
+                <h2>Title : {post.title}</h2>
+                <h6>CATEGORY : {post.category?.name}</h6>
                 <div className="container text-center">
+                  {post.image && (
                     <img
-                      src={defaultpostimage}
+                      src={post.image === DEFAULT_POST_IMAGE_NAME?defaultpostimage:`${POST_IMAGE_SERVE_URL}/${post?.pid}`}
                       alt="defaultimage"
                       height={"350px"}
                       width={"350px"}
                     />
+                  )}
                 </div>
-                <CardText>
-                    Demo Content<br/>.<br/>.<br/>.
-                </CardText>
+                <CardText
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                ></CardText>
               </CardBody>
+            </>
+          )}
         </Card>
         <Card className="mt-4 mb-2">
+          {post && (
+            <>
               <CardBody>
-                <h3>Comments</h3>
+                <h3>Comments ( {post.comments?.length} )</h3>
                 <Container>
+                  {userState.loggedIn && (
                     <Form onSubmit={handleCommentSubmit}>
                       <FormGroup>
                         <Input
@@ -69,11 +123,40 @@ function FullPostView() {
                         Add Comment
                       </Button>
                     </Form>
+                  )}
+
                   <Container className="mt-3">
-                    Demo Comment
+                    {post?.comments?.map((com) => {
+                      return (
+                        <div
+                          key={com.cid}
+                          style={{
+                            border: "1px solid #BB2D3B",
+                            borderRadius: "5px",
+                            margin: "10px",
+                            padding: "10px",
+                          }}
+                        >
+                          <h5>{com.comment}</h5>
+
+                          <p style={{ fontSize: "13px" }}>
+                            By{" "}
+                            <CustomTextColorWrapper>
+                              {com.user?.name}{" "}
+                            </CustomTextColorWrapper>
+                            ON{" "}
+                            <CustomTextColorWrapper>
+                              {CustomDateFormatterFunc(com.commentdate)}
+                            </CustomTextColorWrapper>
+                          </p>
+                        </div>
+                      );
+                    })}
                   </Container>
                 </Container>
               </CardBody>
+            </>
+          )}
         </Card>
       </div>
     </BaseComponent>

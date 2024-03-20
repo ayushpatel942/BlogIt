@@ -54,7 +54,7 @@ function PublicPosts(props) {
         setPostContent({ ...data });
       })
       .catch((error) => {
-        console.log(error);
+         console.log(error);
       });
   }
 
