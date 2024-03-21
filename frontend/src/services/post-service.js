@@ -64,3 +64,10 @@ export const UpdatePostFunc = (postdata,username,postid) => {
   const url = `/api/users/${username}/posts/${postid}`;
   return myaxios.put(url, postdata);
 };
+
+export const SearchPost = (query) => {
+  const url = `/api/search/${query}`;
+  return myaxios.get(url).then((response) => {
+    return response.data;
+  });
+};

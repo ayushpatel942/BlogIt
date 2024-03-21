@@ -12,13 +12,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 
-
-
 public interface PostRepository extends JpaRepository<Post,Integer> {
 
     List<Post> findPostByUser(User username);
     List<Post> findPostByUser(User username,Sort sort);
     List<Post> findPostByCategory(Category category);
     Page<Post> findPostByCategory(Category category,Pageable pageable);
+
+    List<Post> findByTitleContaining(String title);
 
 }

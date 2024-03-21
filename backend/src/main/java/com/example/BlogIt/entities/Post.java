@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import com.example.BlogIt.constants.GlobalConstants;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,11 +41,15 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "cid")
+    @JsonIgnore
     private Category category;
+
     @ManyToOne
     @JoinColumn(name = "uid")
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy ="post",cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Comment> comments;
 }

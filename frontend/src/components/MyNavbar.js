@@ -9,6 +9,8 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Input,
+  Button,
 } from "reactstrap";
 
 //import { UserContext } from "../App";
@@ -17,14 +19,14 @@ import { doLogoutFunc } from "../services/helper";
 
 function MyNavbar(props) {
   const navigate = useNavigate();
-  const { userState,setUserState} = useContext(UserContext);
+  const { userState, setUserState } = useContext(UserContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   function handleLogout() {
     doLogoutFunc(() => {
-      setUserState({data:{},loggedIn:false});
+      setUserState({ data: {}, loggedIn: false });
       navigate("/login");
       toast.success("Logged Out Successfully!!");
     });

@@ -1,12 +1,31 @@
-a:hover{
-    color:#bb2d3b
+a:hover {
+  color: #bb2d3b;
 }
 
-.active>.page-link{
-    background-color:#bb2d3b;
-    border-color: white
+.active > .page-link {
+  background-color: #bb2d3b;
+  border-color: white;
 }
 
-.page-link{
-    border-color: white
+.page-link {
+  border-color: white;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-result {
+  /* position: absolute;
+    background: white;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid gray; */
+  /* display: none; */
+  position: absolute;
+  background: white;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid gray;
+  z-index: 999; /* Set a higher z-index value */
 }

@@ -4,6 +4,7 @@ package com.example.BlogIt.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +30,6 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    @JsonBackReference
     List<Post> posts=new ArrayList<>();
 }

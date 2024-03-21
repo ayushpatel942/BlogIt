@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.example.BlogIt.constants.GlobalConstants;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +48,7 @@ public class User {
     private byte[] imageData;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Post> allposts=new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
